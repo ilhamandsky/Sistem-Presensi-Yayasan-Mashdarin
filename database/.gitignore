@@ -1,0 +1,36 @@
+# Laravel & Framework Files
+/vendor/
+/node_modules/
+/public/storage
+/storage/*.key
+/.env
+
+# Database Files (jika menggunakan database SQLite atau file terkait)
+*.sqlite
+database/database.sqlite
+
+# Cache and Session Files
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Logs
+/storage/logs/*
+
+# Compiled class files
+/bootstrap/cache/*
+
+# Composer / NPM dependencies
+composer.lock
+npm-debug.log
+yarn-error.log
+
+# IDE / Editor files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Other common files that shouldn't be tracked
+.DS_Store
+Thumbs.db
