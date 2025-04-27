@@ -39,7 +39,7 @@
             {{ __('Shift') }}
           </th>
           <th scope="col"
-            class="text-nowrap border border-gray-300 px-1 py-3 text-center text-xs font-medium text-gray-500 dark:border-gray-600 dark:text-gray-300">
+            class="text-nowrap px-1 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300">
             Status
           </th>
           <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
@@ -64,19 +64,19 @@
             $timeOut = $attendance ? $attendance?->time_out?->format('H:i') : null;
             $isWeekend = $date->isWeekend();
             $isPresent = $attendance && ($attendance['status'] == 'present' || $attendance['status'] == 'late');
-            
+
             if ($isPresent) {
                 $displayStatus = 'Hadir';
-                $bgColor = 'bg-green-200 dark:bg-green-800 hover:bg-green-300 dark:hover:bg-green-700 border border-green-300 dark:border-green-600';
+                $bgColor = 'bg-green-200 dark:bg-green-800 hover:bg-green-300 dark:hover:bg-green-700';
             } else {
                 $displayStatus = 'Tidak Hadir';
-                $bgColor = 'bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700 border border-red-300 dark:border-red-600';
+                $bgColor = 'bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700';
             }
-            
+
             // Jika akhir pekan atau tanggal di masa depan dan tidak ada absensi
             if (($isWeekend || !$date->isPast()) && !$attendance) {
                 $displayStatus = '-';
-                $bgColor = 'hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600';
+                $bgColor = 'hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-600';
             }
           @endphp
           <tr wire:key="{{ $employee->id }}" class="group">
