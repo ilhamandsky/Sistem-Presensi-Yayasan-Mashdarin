@@ -26,6 +26,12 @@ class AttendanceComponent extends Component
     public ?string $jobTitle = null;
     public ?string $search = null;
 
+    // Tambahkan polling interval (refresh setiap 30 detik)
+    protected $polling = 30000;
+
+    // Tambahkan listener untuk tombol refresh manual
+    protected $listeners = ['refreshData' => '$refresh'];
+
     public function mount()
     {
         $this->date = date('Y-m-d');
@@ -53,6 +59,20 @@ class AttendanceComponent extends Component
         }
     }
 
+    // Tambahkan metode untuk membersihkan cache absensi
+    public function clearAttendanceCache()
+    {
+        // Hapus semua cache yang berkaitan dengan absensi untuk hari ini
+        $today = date('Y-m-d');
+        $users = User::where('group', 'user')->get();
+
+        foreach ($users as $user) {
+            Cache::forget("attendance-$user->id-$today");
+        }
+
+        $this->banner('Data absensi berhasil disegarkan');
+    }
+
     public function render()
     {
         if ($this->date) {
@@ -71,13 +91,14 @@ class AttendanceComponent extends Component
                 return $q->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('nip', 'like', '%' . $this->search . '%');
             })
-            ->when($this->division, fn (Builder $q) => $q->where('division_id', $this->division))
-            ->when($this->jobTitle, fn (Builder $q) => $q->where('job_title_id', $this->jobTitle))
+            ->when($this->division, fn(Builder $q) => $q->where('division_id', $this->division))
+            ->when($this->jobTitle, fn(Builder $q) => $q->where('job_title_id', $this->jobTitle))
             ->paginate(20)->through(function (User $user) {
                 if ($this->date) {
+                    // Kurangi waktu cache menjadi 2 menit saja
                     $attendances = new Collection(Cache::remember(
                         "attendance-$user->id-$this->date",
-                        now()->addDay(),
+                        now()->addMinutes(2), // Ubah dari addDay() menjadi addMinutes(2)
                         function () use ($user) {
                             /** @var Collection<Attendance>  */
                             $attendances = Attendance::filter(
@@ -102,9 +123,10 @@ class AttendanceComponent extends Component
                         }
                     ) ?? []);
                 } else if ($this->week) {
+                    // Kurangi waktu cache
                     $attendances = new Collection(Cache::remember(
                         "attendance-$user->id-$this->week",
-                        now()->addDay(),
+                        now()->addMinutes(5), // Ubah dari addDay() menjadi addMinutes(5)
                         function () use ($user) {
                             /** @var Collection<Attendance>  */
                             $attendances = Attendance::filter(
@@ -127,9 +149,10 @@ class AttendanceComponent extends Component
                     ) ?? []);
                 } else if ($this->month) {
                     $my = Carbon::parse($this->month);
+                    // Kurangi waktu cache
                     $attendances = new Collection(Cache::remember(
                         "attendance-$user->id-$my->month-$my->year",
-                        now()->addDay(),
+                        now()->addMinutes(10), // Ubah dari addDay() menjadi addMinutes(10)
                         function () use ($user) {
                             /** @var Collection<Attendance>  */
                             $attendances = Attendance::filter(
