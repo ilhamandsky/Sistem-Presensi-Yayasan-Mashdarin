@@ -6,17 +6,16 @@ use Livewire\Component;
 use App\Models\Division;
 use App\Models\JobTitle;
 use App\Models\Education;
-use Illuminate\Support\Str;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Carbon;
+use App\Models\Attendance as AttendanceModel;
 use App\Exports\AttendancesExport;
 use App\Imports\AttendancesImport;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Database\Eloquent\Builder;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Laravel\Jetstream\InteractsWithBanner;
-use App\Models\Attendance as AttendanceModel;
 
 class Attendance extends Component
 {
@@ -30,6 +29,7 @@ class Attendance extends Component
     public $division = null;
     public $job_title = null;
     public $education = null;
+    public $exportFormat = 'excel'; // default ke excel
 
     protected $rules = [
         'file' => 'required|mimes:csv,xls,xlsx,ods',
@@ -40,30 +40,28 @@ class Attendance extends Component
         'education' => 'nullable|exists:educations,id',
     ];
 
+    public function mount()
+    {
+        $this->year = date('Y');
+    }
+
     public function preview()
     {
         $this->previewing = !$this->previewing;
         $this->mode = $this->previewing ? 'export' : null;
     }
 
-    public function mount()
-    {
-        $this->year = date('Y');
-    }
-
     public function render()
     {
         $attendances = null;
+        $rawData = null;
+
         if ($this->file) {
             $this->mode = 'import';
             $this->previewing = true;
             $attendanceImport = new AttendancesImport(save: false);
-            $attendances = Excel::toCollection($attendanceImport, $this->file)
-                ->first()
-                ->map(function (\Illuminate\Support\Collection $row) use ($attendanceImport) {
-                    return $attendanceImport->model($row->toArray());
-                });
-        } else if ($this->previewing && $this->mode == 'export') {
+            $rawData = Excel::toCollection($attendanceImport, $this->file)->first();
+        } elseif ($this->previewing && $this->mode == 'export') {
             $attendances = AttendanceModel::filter(
                 month: $this->month,
                 year: $this->year,
@@ -75,10 +73,13 @@ class Attendance extends Component
             $this->previewing = false;
             $this->mode = null;
         }
+
         return view('livewire.admin.import-export.attendance', [
-            'attendances' => $attendances
+            'attendances' => $attendances,
+            'rawData' => $rawData,
         ]);
     }
+
 
     public function import()
     {
@@ -90,7 +91,7 @@ class Attendance extends Component
 
             Excel::import(new AttendancesImport, $this->file);
 
-            $this->banner(__('Success'));
+            $this->banner(__('Import berhasil!'));
             $this->reset();
         } catch (\Throwable $th) {
             $this->dangerBanner($th->getMessage());
@@ -107,14 +108,56 @@ class Attendance extends Component
         $job_title = $this->job_title ? JobTitle::find($this->job_title)?->name : null;
         $education = $this->education ? Education::find($this->education)?->name : null;
 
-        $filename = 'attendances' . ($this->month ? '_' . Carbon::parse($this->month)->format('F-Y') : '') . ($this->year && !$this->month ? '_' . $this->year : '') . ($division ? '_' . Str::slug($division) : '') . ($job_title ? '_' . Str::slug($job_title) : '') . ($education ? '_' . Str::slug($education) : '') . '.xlsx';
+        $filename = 'attendances' .
+            ($this->month ? '_' . Carbon::parse($this->month)->format('F-Y') : '') .
+            ($this->year && !$this->month ? '_' . $this->year : '') .
+            ($division ? '_' . Str::slug($division) : '') .
+            ($job_title ? '_' . Str::slug($job_title) : '') .
+            ($education ? '_' . Str::slug($education) : '');
 
+        $attendances = AttendanceModel::filter(
+            month: $this->month,
+            year: $this->year,
+            division: $this->division,
+            jobTitle: $this->job_title,
+            education: $this->education
+        )->get();
+
+        if ($this->exportFormat === 'pdf') {
+            // Membuat HTML string untuk PDF
+            $html = '<h1>Attendance Report</h1>';
+            $html .= '<table border="1" cellpadding="5" cellspacing="0" style="width: 100%;">';
+            $html .= '<thead><tr><th>ID</th><th>Name</th><th>Division</th><th>Job Title</th><th>Attendance Date</th></tr></thead>';
+            $html .= '<tbody>';
+
+            foreach ($attendances as $attendance) {
+                $html .= '<tr>';
+                $html .= '<td>' . $attendance->id . '</td>';
+                $html .= '<td>' . $attendance->name . '</td>';
+                $html .= '<td>' . ($attendance->division?->name ?? '-') . '</td>';
+                $html .= '<td>' . ($attendance->jobTitle?->name ?? '-') . '</td>';
+                $html .= '<td>' . $attendance->attendance_date . '</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+
+            // Generate PDF from HTML string
+            $pdf = Pdf::loadHTML($html);
+            return response()->streamDownload(
+                fn() => print($pdf->stream()),
+                $filename . '.pdf'
+            );
+        }
+
+        // Default Excel
         return Excel::download(new AttendancesExport(
             $this->month,
             $this->year,
             $this->division,
             $this->job_title,
             $this->education
-        ), $filename);
+        ), $filename . '.xlsx');
     }
 }
