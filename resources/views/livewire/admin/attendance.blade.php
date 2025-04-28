@@ -8,10 +8,34 @@
     @pushOnce('styles')
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
             integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <style>
+            .refresh-btn {
+                transition: transform 0.5s ease;
+            }
+
+            .refresh-btn.rotating {
+                transform: rotate(360deg);
+            }
+        </style>
     @endpushOnce
-    <h3 class="col-span-2 mb-4 text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
-        Data Presensi
-    </h3>
+
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            Data Presensi
+        </h3>
+        <!-- Tombol Refresh -->
+        <button wire:click="clearAttendanceCache" wire:loading.class="rotating"
+            class="refresh-btn bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-colors duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span wire:loading.remove wire:target="clearAttendanceCache">Refresh Data</span>
+            <span wire:loading wire:target="clearAttendanceCache">Memuat...</span>
+        </button>
+    </div>
+
     <div class="mb-1 text-sm dark:text-white">Filter:</div>
     <div class="mb-4 grid grid-cols-2 flex-wrap items-center gap-5 md:gap-8 lg:flex">
         <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -49,6 +73,39 @@
             <x-heroicon-o-printer class="h-5 w-5" />
         </x-secondary-button>
     </div>
+
+    <!-- Notifikasi status refresh -->
+    <div id="notification-banner" x-data="{ show: false, message: '' }" x-show="show" x-init="Livewire.on('banner-message', (msg) => {
+        message = msg;
+        show = true;
+        setTimeout(() => { show = false }, 3000);
+    })"
+        class="mb-4 p-3 bg-green-100 text-green-800 rounded-md flex items-center justify-between"
+        style="display: none;">
+        <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span x-text="message">Data berhasil disegarkan</span>
+        </div>
+        <button @click="show = false" class="text-green-600 hover:text-green-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Status auto-refresh -->
+    <div class="mb-4 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <span>Data diperbarui otomatis setiap 30 detik</span>
+    </div>
+
     <div class="overflow-x-scroll">
         <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-900">
@@ -268,4 +325,27 @@
 
     <x-attendance-detail-modal :current-attendance="$currentAttendance" />
     @stack('attendance-detail-scripts')
+
+    @pushOnce('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Event listener untuk banner message dari Livewire
+                Livewire.on('banner-message', function(message) {
+                    // Jika menggunakan AlpineJS, ini sudah ditangani di atas
+                    // Jika tidak, tambahkan kode manual di sini
+                });
+
+                // Tambahkan animasi untuk tombol refresh
+                const refreshBtn = document.querySelector('.refresh-btn');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', function() {
+                        this.classList.add('rotating');
+                        setTimeout(() => {
+                            this.classList.remove('rotating');
+                        }, 1000);
+                    });
+                }
+            });
+        </script>
+    @endpushOnce
 </div>
