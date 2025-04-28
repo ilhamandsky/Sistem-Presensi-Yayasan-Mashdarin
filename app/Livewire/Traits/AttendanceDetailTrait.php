@@ -17,7 +17,6 @@ trait AttendanceDetailTrait
             $this->showDetail = true;
             $this->currentAttendance = $attendance->getAttributes();
             $this->currentAttendance['name'] = $attendance->user->name;
-            $this->currentAttendance['nip'] = $attendance->user->nip;
             $this->currentAttendance['address'] = $attendance->user->address;
             if ($attendance->attachment) {
                 $this->currentAttendance['attachment'] = $attendance->attachment_url;

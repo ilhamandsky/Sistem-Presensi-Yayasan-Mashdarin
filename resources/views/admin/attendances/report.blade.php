@@ -45,8 +45,6 @@
 </head>
 
 <body>
-    <h1>Data Presensi</h1>
-
     <div style="display: table; width: 100%; margin-bottom: 20px">
         <div style="display: table-cell;">
             <table>
