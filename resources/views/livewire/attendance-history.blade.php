@@ -18,7 +18,7 @@
       <x-label for="month_filter" value="Per Bulan"></x-label>
       <x-input type="month" name="month_filter" id="month_filter" wire:model.live="month" />
     </div>
-    
+
     <div class="col-span-2 flex flex-col gap-3 lg:flex-row lg:items-center">
       <x-label for="day_filter" value="Per Hari"></x-label>
       <x-input type="date" name="day_filter" id="day_filter" wire:model.live="date" />
@@ -175,7 +175,7 @@
             @foreach ($dates as $date)
               @php
                 $isWeekend = $date->isWeekend();
-                
+
                 if ($isPerDayFilter) {
                     $attendance = $employee->attendance;
                 } else {
@@ -183,9 +183,9 @@
                         return isset($item['date']) && $item['date'] === $date->format('Y-m-d');
                     });
                 }
-                
+
                 $isPresent = $attendance && ($attendance->status == 'present' || $attendance->status == 'late');
-                
+
                 if ($isPerDayFilter) {
                     // Untuk filter per hari: gunakan kata-kata
                     if ($isPresent) {
@@ -200,7 +200,7 @@
                         $displayStatus = 'Tidak Hadir';
                         $bgColor = 'bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700 border border-red-300 dark:border-red-600';
                     }
-                    
+
                     // Jika akhir pekan atau tanggal di masa depan dan tidak ada absensi
                     if (($isWeekend || !$date->isPast()) && !$attendance) {
                         $displayStatus = '-';
@@ -224,7 +224,7 @@
                             $absentCount++;
                         }
                     }
-                    
+
                     // Jika akhir pekan atau tanggal di masa depan dan tidak ada absensi
                     if (($isWeekend || !$date->isPast()) && !$attendance) {
                         $displayStatus = '-';
