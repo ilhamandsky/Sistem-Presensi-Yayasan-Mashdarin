@@ -47,7 +47,7 @@
 
 <body>
     <h1 class="">
-        Data Absensi
+        Data Presensi
     </h1>
 
     <div style="display: table; width: 100%; margin-bottom: 20px">

@@ -26,18 +26,17 @@ class Attendance extends Component
     public $file = null;
     public $year = null;
     public $month = null;
-    public $division = null;
+
     public $job_title = null;
-    public $education = null;
+
     public $exportFormat = 'excel'; // default ke excel
 
     protected $rules = [
         'file' => 'required|mimes:csv,xls,xlsx,ods',
         'year' => 'nullable|date_format:Y',
         'month' => 'nullable|date_format:Y-m',
-        'division' => 'nullable|exists:divisions,id',
         'job_title' => 'nullable|exists:job_titles,id',
-        'education' => 'nullable|exists:educations,id',
+        
     ];
 
     public function mount()
@@ -65,9 +64,8 @@ class Attendance extends Component
             $attendances = AttendanceModel::filter(
                 month: $this->month,
                 year: $this->year,
-                division: $this->division,
-                jobTitle: $this->job_title,
-                education: $this->education
+                jobTitle: $this->job_title
+                
             )->get();
         } else {
             $this->previewing = false;
@@ -104,23 +102,23 @@ class Attendance extends Component
             abort(403);
         }
 
-        $division = $this->division ? Division::find($this->division)?->name : null;
+        
         $job_title = $this->job_title ? JobTitle::find($this->job_title)?->name : null;
-        $education = $this->education ? Education::find($this->education)?->name : null;
+       
 
         $filename = 'attendances' .
             ($this->month ? '_' . Carbon::parse($this->month)->format('F-Y') : '') .
             ($this->year && !$this->month ? '_' . $this->year : '') .
-            ($division ? '_' . Str::slug($division) : '') .
-            ($job_title ? '_' . Str::slug($job_title) : '') .
-            ($education ? '_' . Str::slug($education) : '');
+           
+            ($job_title ? '_' . Str::slug($job_title) : '') ;
+            
 
         return Excel::download(new AttendancesExport(
             $this->month,
             $this->year,
-            $this->division,
+            
             $this->job_title,
-            $this->education
+            
         ), $filename . '.xlsx');
     }
 }
