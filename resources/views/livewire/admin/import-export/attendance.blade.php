@@ -66,7 +66,6 @@
                             <th class="border px-4 py-2">Jam Masuk</th>
                             <th class="border px-4 py-2">Jam Keluar</th>
                             <th class="border px-4 py-2">Shift</th>
-                            <th class="border px-4 py-2">Barcode</th>
                             <th class="border px-4 py-2">Status</th>
                             <th class="border px-4 py-2">Note</th>
                         </tr>
@@ -80,13 +79,10 @@
                                 <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                 <td class="border px-4 py-2">{{ $attendance->date }}</td>
                                 <td class="border px-4 py-2">{{ $attendance->user->name ?? '-' }}</td>
-                                <td class="border px-4 py-2">{{ $attendance->clock_in ?? '-' }}</td>
-                                <td class="border px-4 py-2">{{ $attendance->clock_out ?? '-' }}</td>
+                                <td class="border px-4 py-2">{{ $attendance->time_in?->format('H:i:s') }}</td>
+                                <td class="border px-4 py-2">{{ $attendance->time_out?->format('H:i:s') }}</td>
                                 <td class="border px-4 py-2">
                                     {{ $shift ? $shift['name'].' ('.$shift['start_time'].'-'.$shift['end_time'].')' : '-' }}
-                                </td>
-                                <td class="border px-4 py-2">
-                                    {{ optional(json_decode($attendance->user->barcode))->value ?? '-' }}
                                 </td>
                                 <td class="border px-4 py-2">{{ $attendance->status ?? '-' }}</td>
                                 <td class="border px-4 py-2">{{ $attendance->note ?? '-' }}</td>
