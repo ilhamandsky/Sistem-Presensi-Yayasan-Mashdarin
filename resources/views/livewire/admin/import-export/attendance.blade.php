@@ -1,7 +1,7 @@
 <div>
     <h1 class="text-2xl font-bold mb-4">Export Presensi</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <!-- Form -->
         <div>
             <label>Per Tahun</label>
@@ -18,13 +18,6 @@
                 @foreach (\App\Models\JobTitle::all() as $title)
                     <option value="{{ $title->id }}">{{ $title->name }}</option>
                 @endforeach
-            </select>
-        </div>
-        <div>
-            <label>Format Ekspor</label>
-            <select wire:model="exportFormat" class="form-select w-full">
-                <option value="excel">Excel (.xlsx)</option>
-                <option value="pdf">PDF (.pdf)</option>
             </select>
         </div>
         <div class="flex items-end gap-2">
@@ -82,7 +75,7 @@
                                 <td class="border px-4 py-2">{{ $attendance->time_in?->format('H:i:s') }}</td>
                                 <td class="border px-4 py-2">{{ $attendance->time_out?->format('H:i:s') }}</td>
                                 <td class="border px-4 py-2">
-                                    {{ $shift ? $shift['name'].' ('.$shift['start_time'].'-'.$shift['end_time'].')' : '-' }}
+                                    {{ $shift ? $shift['name'] . ' (' . $shift['start_time'] . '-' . $shift['end_time'] . ')' : '-' }}
                                 </td>
                                 <td class="border px-4 py-2">{{ $attendance->status ?? '-' }}</td>
                                 <td class="border px-4 py-2">{{ $attendance->note ?? '-' }}</td>

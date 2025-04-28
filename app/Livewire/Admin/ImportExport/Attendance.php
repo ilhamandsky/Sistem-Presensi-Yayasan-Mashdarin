@@ -115,43 +115,6 @@ class Attendance extends Component
             ($job_title ? '_' . Str::slug($job_title) : '') .
             ($education ? '_' . Str::slug($education) : '');
 
-        $attendances = AttendanceModel::filter(
-            month: $this->month,
-            year: $this->year,
-            division: $this->division,
-            jobTitle: $this->job_title,
-            education: $this->education
-        )->get();
-
-        if ($this->exportFormat === 'pdf') {
-            // Membuat HTML string untuk PDF
-            $html = '<h1>Attendance Report</h1>';
-            $html .= '<table border="1" cellpadding="5" cellspacing="0" style="width: 100%;">';
-            $html .= '<thead><tr><th>ID</th><th>Name</th><th>Division</th><th>Job Title</th><th>Attendance Date</th></tr></thead>';
-            $html .= '<tbody>';
-
-            foreach ($attendances as $attendance) {
-                $html .= '<tr>';
-                $html .= '<td>' . $attendance->id . '</td>';
-                $html .= '<td>' . $attendance->name . '</td>';
-                $html .= '<td>' . ($attendance->division?->name ?? '-') . '</td>';
-                $html .= '<td>' . ($attendance->jobTitle?->name ?? '-') . '</td>';
-                $html .= '<td>' . $attendance->attendance_date . '</td>';
-                $html .= '</tr>';
-            }
-
-            $html .= '</tbody>';
-            $html .= '</table>';
-
-            // Generate PDF from HTML string
-            $pdf = Pdf::loadHTML($html);
-            return response()->streamDownload(
-                fn() => print($pdf->stream()),
-                $filename . '.pdf'
-            );
-        }
-
-        // Default Excel
         return Excel::download(new AttendancesExport(
             $this->month,
             $this->year,
