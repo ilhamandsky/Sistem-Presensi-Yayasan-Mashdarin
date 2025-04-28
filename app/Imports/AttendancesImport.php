@@ -24,15 +24,21 @@ class AttendancesImport implements ToModel, WithHeadingRow, WithValidation, Skip
      */
     public function model(array $row)
     {
-        
+        [$lat, $lng] = [null, null];
+        if (isset($row['coordinates'])) {
+            [$lat, $lng] = explode(',', $row['coordinates']);
+        }
         $shift_id = Shift::where('name', $row['shift'])->first()?->id ?? $row['shift_id'];
 
         $attendance = (new Attendance)->forceFill([
             'user_id' => $row['user_id'],
+            'barcode_id' => $row['barcode_id'],
             'date' => $row['date'],
             'time_in' => $row['time_in'],
             'time_out' => $row['time_out'],
             'shift_id' => $shift_id,
+            'latitude' => doubleval($lat),
+            'longitude' => doubleval($lng),
             'status' => $this->getStatus($row['status']) ?? $row['raw_status'],
             'note' => $row['note'],
             'attachment' => $row['attachment'],
@@ -51,7 +57,11 @@ class AttendancesImport implements ToModel, WithHeadingRow, WithValidation, Skip
             case 'hadir':
                 return 'present';
             case 'terlambat':
-                return 'present';
+                return 'late';
+            case 'izin':
+                return 'excused';
+            case 'sakit':
+                return 'sick';
             case 'tidak hadir':
                 return 'absent';
             default:
