@@ -8,7 +8,7 @@
   @endpushOnce
   <div class="flex flex-col justify-between sm:flex-row">
     <h3 class="mb-4 text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
-      Absensi Hari Ini
+      Presensi Hari Ini
     </h3>
     <h3 class="mb-4 text-lg font-semibold leading-tight text-gray-800 dark:text-gray-200">
       Jumlah Karyawan: {{ $employeesCount }}

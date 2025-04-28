@@ -1,124 +1,63 @@
 <?php
 
-namespace App\Livewire\Admin\ImportExport;
+namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use App\Models\Division;
-use App\Models\JobTitle;
-use App\Models\Education;
-use App\Models\Attendance as AttendanceModel;
-use App\Exports\AttendancesExport;
-use App\Imports\AttendancesImport;
-use Illuminate\Support\Str;
+use App\Livewire\Traits\AttendanceDetailTrait;
+use App\Models\Attendance;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Livewire\WithFileUploads;
-use Maatwebsite\Excel\Facades\Excel;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Jetstream\InteractsWithBanner;
+use Livewire\Component;
+use Livewire\WithPagination;
 
-class Attendance extends Component
+class AttendanceComponent extends Component
 {
-    use InteractsWithBanner, WithFileUploads;
+    use AttendanceDetailTrait;
+    use WithPagination, InteractsWithBanner;
 
-    public bool $previewing = false;
-    public ?string $mode = null;
-    public $file = null;
-    public $year = null;
-    public $month = null;
-
-    public $job_title = null;
-
-    public $exportFormat = 'excel'; // default ke excel
-
-    protected $rules = [
-        'file' => 'required|mimes:csv,xls,xlsx,ods',
-        'year' => 'nullable|date_format:Y',
-        'month' => 'nullable|date_format:Y-m',
-        'job_title' => 'nullable|exists:job_titles,id',
-        
-    ];
+    // Tambahkan listener untuk tombol refresh manual
+    protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {
-        $this->year = date('Y');
+        $this->date = date('Y-m-d');
     }
 
-    public function preview()
+    public function updating($key): void
     {
-        $this->previewing = !$this->previewing;
-        $this->mode = $this->previewing ? 'export' : null;
+
+        }
+    }
+
+    // Tambahkan metode untuk membersihkan cache absensi
+    public function clearAttendanceCache()
+    {
+        // Hapus semua cache yang berkaitan dengan absensi untuk hari ini
+        $today = date('Y-m-d');
+        $users = User::where('group', 'user')->get();
+
+        foreach ($users as $user) {
+            Cache::forget("attendance-$user->id-$today");
+        }
+
+        $this->banner('Data absensi berhasil disegarkan');
     }
 
     public function render()
     {
-        $attendances = null;
-        $rawData = null;
-
-        if ($this->file) {
-            $this->mode = 'import';
-            $this->previewing = true;
-            $attendanceImport = new AttendancesImport(save: false);
-            $rawData = Excel::toCollection($attendanceImport, $this->file)->first();
-        } elseif ($this->previewing && $this->mode == 'export') {
-            $attendances = AttendanceModel::filter(
-                month: $this->month,
-                year: $this->year,
-                jobTitle: $this->job_title
-                
-            )->get();
-        } else {
-            $this->previewing = false;
-            $this->mode = null;
+        if ($this->date) {
+            $dates = [Carbon::parse($this->date)];
+        } else if ($this->week) {
+            $start = Carbon::parse($this->week)->startOfWeek();
+            $end = Carbon::parse($this->week)->endOfWeek();
+            $dates = $start->range($end)->toArray();
+        } else if ($this->month) {
+            $start = Carbon::parse($this->month)->startOfMonth();
+            $end = Carbon::parse($this->month)->endOfMonth();
+            $dates = $start->range($end)->toArray();
         }
-
-        return view('livewire.admin.import-export.attendance', [
-            'attendances' => $attendances,
-            'rawData' => $rawData,
-        ]);
-    }
-
-
-    public function import()
-    {
-        if (Auth::user()->isNotAdmin) {
-            abort(403);
-        }
-        try {
-            $this->validate();
-
-            Excel::import(new AttendancesImport, $this->file);
-
-            $this->banner(__('Import berhasil!'));
-            $this->reset();
-        } catch (\Throwable $th) {
-            $this->dangerBanner($th->getMessage());
-        }
-    }
-
-    public function export()
-    {
-        if (Auth::user()->isNotAdmin) {
-            abort(403);
-        }
-
-        
-        $job_title = $this->job_title ? JobTitle::find($this->job_title)?->name : null;
-       
-
-        $filename = 'attendances' .
-            ($this->month ? '_' . Carbon::parse($this->month)->format('F-Y') : '') .
-            ($this->year && !$this->month ? '_' . $this->year : '') .
-           
-            ($job_title ? '_' . Str::slug($job_title) : '') ;
-            
-
-        return Excel::download(new AttendancesExport(
-            $this->month,
-            $this->year,
-            
-            $this->job_title,
-            
-        ), $filename . '.xlsx');
     }
 }
