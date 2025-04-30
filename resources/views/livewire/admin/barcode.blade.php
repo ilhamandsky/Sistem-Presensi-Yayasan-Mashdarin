@@ -40,9 +40,6 @@
               <x-secondary-button href="{{ route('admin.barcodes.download', $barcode->id) }}" title="Download QR Code">
                  <x-heroicon-o-arrow-down-tray class="h-5 w-5"/>
               </x-secondary-button>
-              <x-button href="{{ route('admin.barcodes.edit', $barcode->id) }}" title="Edit Nama Barcode">
-                 <x-heroicon-o-pencil-square class="h-5 w-5"/>
-              </x-button>
               <x-danger-button wire:click="confirmDeletion('{{ $barcode->id }}', '{{ addslashes($barcode->user->name) }}')"
                                  wire:loading.attr="disabled" wire:target="confirmDeletion('{{ $barcode->id }}', '{{ addslashes($barcode->user->name) }}')"
                                  title="Hapus Barcode">
