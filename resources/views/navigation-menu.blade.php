@@ -22,10 +22,6 @@
                         <x-nav-link class="hidden md:inline-flex" href="{{ route('home') }}" :active="request()->routeIs('home')">
                             {{ __('Scan') }}
                         </x-nav-link>
-                        <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.attendances') }}"
-                            :active="request()->routeIs('admin.attendances')">
-                            {{ __('Laporan Presensi') }}
-                        </x-nav-link>
                         <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.employees') }}"
                             :active="request()->routeIs('admin.employees')">
                             {{ __('Employee') }}
@@ -44,8 +40,9 @@
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
-                        <x-nav-link href="{{ route('admin.import-export.attendances') }}" :active="request()->routeIs('admin.import-export.attendances')">
-                            {{ __('Export Presensi') }}
+                        <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.attendances') }}"
+                            :active="request()->routeIs('admin.attendances')">
+                            {{ __('Laporan Presensi') }}
                         </x-nav-link>
                     @else
                         <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
