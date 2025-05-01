@@ -1,60 +1,66 @@
-<x-guest-layout>
-  <x-authentication-card>
-    <x-slot name="logo">
-      <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 drop-shadow-lg"
-        style="font-size: 40px; font-weight: bold; background: linear-gradient(to right, #3b82f6, #6366f1); -webkit-background-clip: text; color: transparent; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-        ABSENSI KARYAWAN
-      </h1>
-      <h3 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 drop-shadow-lg"
-        style="font-size: 20px; font-weight: bold; background: linear-gradient(to right, #3b82f6, #6366f1); -webkit-background-clip: text; color: transparent; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-        Siapkan QR-CODE anda, Silahkan Login
-      </h3>
-    </x-slot>
+@extends('layouts.guest')
 
-    <x-validation-errors class="mb-4" />
-
-    @session('status')
-    <div class="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
-      {{ $value }}
+@section('content')
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="flex flex-col md:flex-row w-full max-w-4xl bg-white rounded-2xl shadow-lg overflow-hidden">
+    <!-- Bagian Kiri -->
+    <div class="w-1/2 relative flex flex-col justify-center px-12 bg-gradient-to-br from-blue-700 to-blue-500 text-white rounded-l-2xl">
+      <h1 class="text-4xl font-bold drop-shadow">SiMash</h1>
+      <p class="text-lg mt-2 drop-shadow">Sistem Presensi Digital Terpercaya</p>
+      <div class="absolute w-64 h-64 border-2 border-white/20 rounded-full bottom-10 left-10"></div>
     </div>
-    @endsession
 
-    <form method="POST" action="{{ route('login') }}">
-      @csrf
-
-      <div>
-        <x-label for="email" value="{{ __('Email or Phone') }}" />
-        <x-input id="email" class="mt-1 block w-full" type="text" name="email" :value="old('email')" required
-          autofocus autocomplete="username" />
+    <!-- Bagian Kanan (Form Login) -->
+    <div class="w-1/2 bg-white p-10 rounded-r-2xl shadow-lg">
+      <div class="flex justify-center mb-4">
+        <img src="{{ asset('logo.jpg') }}" alt="Logo" class="h-12">
       </div>
 
-      <div class="mt-4">
-        <x-label for="password" value="{{ __('Password') }}" />
-        <x-input id="password" class="mt-1 block w-full" type="password" name="password" required
-          autocomplete="current-password" />
+      <h3 class="text-xl font-semibold mb-1">Hello Again!</h3>
+      <p class="text-sm text-gray-500 mb-6">Selamat Datang Kembali</p>
+
+      @if(session('status'))
+      <div class="mb-4 text-sm text-green-600">
+        {{ session('status') }}
       </div>
+      @endif
 
-      <div class="mt-4 block">
-        <label for="remember_me" class="flex items-center">
-          <x-checkbox id="remember_me" name="remember" checked />
-          <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-        </label>
-      </div>
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-      <div class="mb-3 mt-4 flex items-center justify-end">
-        <x-button class="ms-4">
-          {{ __('Log in') }}
-        </x-button>
-      </div>
-    </form>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <div class="relative">
+            <input id="email" name="email" type="email" autocomplete="email" required
+              class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-2" />
+          </div>
+        </div>
 
-    @if (Route::has('password.request'))
-    <a class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-      href="{{ route('password.request') }}">
-      {{ __('Forgot your password?') }}
-    </a>
-    @endif
-    <br>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+          <div class="relative">
+            <input id="password" name="password" type="password" autocomplete="current-password" required
+              class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-2" />
+          </div>
+        </div>
 
-  </x-authentication-card>
-</x-guest-layout>
+        <div class="flex items-center mb-4">
+          <input id="remember_me" name="remember" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+          <label for="remember_me" class="ml-2 block text-sm text-gray-900">Ingat saya</label>
+        </div>
+
+        <button type="submit"
+          class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition duration-150 ease-in-out">
+          Masuk
+        </button>
+
+        @if (Route::has('password.request'))
+        <div class="mt-4 text-sm">
+          <a href="{{ route('password.request') }}" class="text-indigo-600 hover:underline">Lupa kata sandi Anda?</a>
+        </div>
+        @endif
+      </form>
+    </div>
+  </div>
+</div>
+@endsection
