@@ -4,19 +4,19 @@
   {{-- ... (Kode HTML tetap sama seperti sebelumnya) ... --}}
 
   <div class="mb-4 flex flex-wrap items-center gap-2">
-    <x-button href="{{ route('admin.barcodes.create') }}">
+    <x-button href="{{ route('admin.barcodes.create') }}" >
       <x-heroicon-o-plus class="-ml-1 mr-2 h-5 w-5"/>
-      Buat Barcode Karyawan
+      Buat QR Code Karyawan
     </x-button>
     <x-secondary-button href="{{ route('admin.barcodes.downloadall') }}">
       <x-heroicon-o-arrow-down-tray class="-ml-1 mr-2 h-5 w-5"/>
-      Download Semua Barcode
+      Download Semua QR Code
     </x-secondary-button>
   </div>
 
   @if ($barcodes->isEmpty())
     <div class="mt-6 rounded border border-yellow-300 bg-yellow-50 p-4 text-center text-yellow-700 dark:border-yellow-700 dark:bg-gray-800 dark:text-yellow-300">
-        Belum ada barcode karyawan yang dibuat.
+        Belum ada QR Code karyawan yang dibuatc
     </div>
   @else
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -65,7 +65,7 @@
   <x-confirmation-modal wire:model.live="confirmingDeletion">
     <x-slot name="title">Hapus Barcode</x-slot>
     <x-slot name="content">
-      Apakah Anda yakin ingin menghapus barcode untuk karyawan <b>{{ $deleteName ?? '' }}</b>? Tindakan ini tidak dapat dibatalkan.
+      Apakah Anda yakin ingin menghapus QR Code untuk karyawan <b>{{ $deleteName ?? '' }}</b>? Tindakan ini tidak dapat dibatalkan.
     </x-slot>
     <x-slot name="footer">
       <x-secondary-button wire:click="$set('confirmingDeletion', false)" wire:loading.attr="disabled">

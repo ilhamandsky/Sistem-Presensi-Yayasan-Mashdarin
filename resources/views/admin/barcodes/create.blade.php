@@ -3,7 +3,7 @@
 
   <x-slot name="header">
     <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-      {{ __('Create New User Barcode') }}
+      {{ __('Buat QR Code Karyawan') }}
     </h2>
   </x-slot>
 
@@ -18,16 +18,16 @@
             <div class="w-full">
               <x-label for="user_id">Pilih Karyawan</x-label>
               {{-- Gunakan Select Input Component jika ada, atau tag <select> biasa --}}
-              <select name="user_id" id="user_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600">
-                <option value="">-- Pilih Karyawan --</option>
+              <x-select name="user_id" id="user_id">
+                <option value="" disabled selected>Pilih Karyawan</option>
                 @foreach ($users as $id => $name)
-                  <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>
-                    {{ $name }}
-                  </option>
+                <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>
+                  {{ $name }}
+                </option>
                 @endforeach
-              </select>
+              </x-select>
               @error('user_id')
-                <x-input-error for="user_id" class="mt-2" message="{{ $message }}" />
+              <x-input-error for="user_id" class="mt-2" message="{{ $message }}" />
               @enderror
             </div>
 
@@ -40,7 +40,8 @@
 
             <div class="mb-3 mt-6 flex items-center justify-end"> {{-- Beri margin atas --}}
               <x-button class="ms-4">
-                {{ __('Create Barcode') }} {{-- Ubah teks tombol --}}
+                <x-heroicon-o-plus class="-ml-1 mr-2 h-5 w-5" />
+                {{ __('Buat QR Code Karyawan') }} {{-- Ubah teks tombol --}}
               </x-button>
             </div>
           </form>

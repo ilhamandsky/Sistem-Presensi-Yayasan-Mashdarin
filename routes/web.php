@@ -45,7 +45,7 @@ Route::middleware([
         })->name('admin.dashboard');
 
         // Barcode
-        Route::resource('/barcodes', BarcodeController::class)
+        Route::resource('/qrcode', BarcodeController::class)
             ->only(['index', 'show', 'create', 'store', 'edit', 'update'])
             ->names([
                 'index' => 'admin.barcodes',
@@ -55,9 +55,9 @@ Route::middleware([
                 'edit' => 'admin.barcodes.edit',
                 'update' => 'admin.barcodes.update',
             ]);
-        Route::get('/barcodes/download/all', [BarcodeController::class, 'downloadAll'])
+        Route::get('/qrcode/download/all', [BarcodeController::class, 'downloadAll'])
             ->name('admin.barcodes.downloadall');
-        Route::get('/barcodes/{id}/download', [BarcodeController::class, 'download'])
+        Route::get('/qrcode/{id}/download', [BarcodeController::class, 'download'])
             ->name('admin.barcodes.download');
 
         // User/Employee/Karyawan
