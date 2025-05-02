@@ -6,51 +6,48 @@
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ Auth::user()->isAdmin ? route('admin.dashboard') : route('home') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ asset('logo.jpg') }}" alt="Logo" class="h-8 w-8 rounded-full" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-2 sm:-my-px sm:ms-6 sm:flex md:ms-10 md:space-x-5 lg:space-x-8">
                     @if (Auth::user()->isAdmin)
-                        <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
-                            {{ __('Home') }}
-                        </x-nav-link>
-                        <x-nav-link href="{{ route('admin.barcodes') }}" :active="request()->routeIs('admin.barcodes')">
-                            {{ __('QR Code') }}
-                        </x-nav-link>
-                        <x-nav-link class="hidden md:inline-flex" href="{{ route('home') }}" :active="request()->routeIs('home')">
-                            {{ __('Scan') }}
-                        </x-nav-link>
-                        <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.attendances') }}"
-                            :active="request()->routeIs('admin.attendances')">
-                            {{ __('Laporan Presensi') }}
-                        </x-nav-link>
-                        <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.employees') }}"
-                            :active="request()->routeIs('admin.employees')">
-                            {{ __('Employee') }}
-                        </x-nav-link>
-                        <x-nav-dropdown :active="request()->routeIs('admin.masters.*')" triggerClasses="text-nowrap">
-                            <x-slot name="trigger">
-                                {{ __('Master Data') }}
-                                <x-heroicon-o-chevron-down class="ms-2 h-5 w-5 text-gray-400" />
-                            </x-slot>
-                            <x-slot name="content">
-                                <x-dropdown-link href="{{ route('admin.masters.job-title') }}" :active="request()->routeIs('admin.masters.job-title')">
-                                    {{ __('Job Title') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link href="{{ route('admin.masters.shift') }}" :active="request()->routeIs('admin.masters.shift')">
-                                    {{ __('Shift') }}
-                                </x-dropdown-link>
-                            </x-slot>
-                        </x-nav-dropdown>
-                        <x-nav-link href="{{ route('admin.import-export.attendances') }}" :active="request()->routeIs('admin.import-export.attendances')">
-                            {{ __('Export Presensi') }}
-                        </x-nav-link>
+                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                        {{ __('Home') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.barcodes') }}" :active="request()->routeIs('admin.barcodes')">
+                        {{ __('QR Code') }}
+                    </x-nav-link>
+                    <x-nav-link class="hidden md:inline-flex" href="{{ route('home') }}" :active="request()->routeIs('home')">
+                        {{ __('Scan') }}
+                    </x-nav-link>
+                    <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.employees') }}"
+                        :active="request()->routeIs('admin.employees')">
+                        {{ __('Employee') }}
+                    </x-nav-link>
+                    <x-nav-dropdown :active="request()->routeIs('admin.masters.*')" triggerClasses="text-nowrap">
+                        <x-slot name="trigger">
+                            {{ __('Master Data') }}
+                            <x-heroicon-o-chevron-down class="ms-2 h-5 w-5 text-gray-400" />
+                        </x-slot>
+                        <x-slot name="content">
+                            <x-dropdown-link href="{{ route('admin.masters.job-title') }}" :active="request()->routeIs('admin.masters.job-title')">
+                                {{ __('Job Title') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link href="{{ route('admin.masters.shift') }}" :active="request()->routeIs('admin.masters.shift')">
+                                {{ __('Shift') }}
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-nav-dropdown>
+                    <x-nav-link class="hidden md:inline-flex" href="{{ route('admin.attendances') }}"
+                        :active="request()->routeIs('admin.attendances')">
+                        {{ __('Laporan Presensi') }}
+                    </x-nav-link>
                     @else
-                        <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                            {{ __('Home') }}
-                        </x-nav-link>
+                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                        {{ __('Home') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -85,9 +82,9 @@
                                 </x-dropdown-link>
 
                                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                    <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                        {{ __('API Tokens') }}
-                                    </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('api-tokens.index') }}">
+                                    {{ __('API Tokens') }}
+                                </x-dropdown-link>
                                 @endif
 
                                 <div class="border-t border-gray-200 dark:border-gray-600"></div>
@@ -127,28 +124,28 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="space-y-1 pb-3 pt-2">
             @if (Auth::user()->isAdmin)
-                <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('admin.barcodes') }}" :active="request()->routeIs('admin.barcodes')">
-                    {{ __('QR Code') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                    {{ __('Scan') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('admin.attendances') }}" :active="request()->routeIs('admin.attendances')">
-                    {{ __('Laporan Presensi') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('admin.employees') }}" :active="request()->routeIs('admin.employees')">
-                    {{ __('Employee') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link href="{{ route('admin.import-export.attendances') }}" :active="request()->routeIs('admin.import-export.attendances')">
-                    Export Presensi
-                </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                {{ __('Beranda') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.barcodes') }}" :active="request()->routeIs('admin.barcodes')">
+                {{ __('QR Code') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                {{ __('Scan') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.attendances') }}" :active="request()->routeIs('admin.attendances')">
+                {{ __('Laporan Presensi') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.employees') }}" :active="request()->routeIs('admin.employees')">
+                {{ __('Employee') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.import-export.attendances') }}" :active="request()->routeIs('admin.import-export.attendances')">
+                Export Presensi
+            </x-responsive-nav-link>
             @else
-                <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                    {{ __('Beranda') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                {{ __('Beranda') }}
+            </x-responsive-nav-link>
             @endif
         </div>
 
@@ -167,9 +164,9 @@
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
+                    {{ __('API Tokens') }}
+                </x-responsive-nav-link>
                 @endif
 
                 <form method="POST" action="{{ route('logout') }}" x-data>

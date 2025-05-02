@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Fonts -->
@@ -22,14 +22,12 @@
 <body class="font-sans antialiased">
   <div class="font-sans text-gray-900 antialiased dark:text-gray-100">
 
-    <div class="absolute right-4 top-4">
-      <x-theme-toggle x-data />
-    </div>
 
-    {{ $slot }}
+    @yield('content')
   </div>
 
   @livewireScripts
+
 </body>
 
 </html>
