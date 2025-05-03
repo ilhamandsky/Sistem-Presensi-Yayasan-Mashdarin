@@ -50,7 +50,7 @@ class ScanComponent extends Component
             $this->shift_id = $this->attendance->shift_id;
             $this->isAbsence = $this->attendance->time_out !== null;
             if ($this->isAbsence) {
-                $this->successMsg = 'Sudah menyelesaikan absensi hari ini.';
+                $this->successMsg = 'Sudah menyelesaikan presensi hari ini.';
             }
         } else {
             $this->isAbsence = false;
@@ -137,11 +137,11 @@ class ScanComponent extends Component
             $this->canCheckOut = false;
             
             if ($this->canCheckIn) {
-                $this->statusMessage = 'Anda dapat melakukan absen masuk sekarang';
+                $this->statusMessage = 'Anda dapat melakukan presensi masuk sekarang';
             } else if ($now->lt($startTime)) {
-                $this->statusMessage = 'Belum waktunya absen masuk. Absen masuk dapat dilakukan mulai ' . $startTime->format('H:i');
+                $this->statusMessage = 'Belum waktunya presensi masuk. Presensi masuk dapat dilakukan mulai ' . $startTime->format('H:i');
             } else {
-                $this->statusMessage = 'Waktu absen masuk telah berakhir';
+                $this->statusMessage = 'Waktu presensi masuk telah berakhir';
             }
         } else if (!$this->attendance->time_out) {
             // Sudah absen masuk, belum absen keluar
@@ -156,17 +156,17 @@ class ScanComponent extends Component
             $this->canCheckOut = $now->gte($minTimeOut) && $now->lte($endTime);
             
             if ($now->lt($minTimeOut)) {
-                $this->statusMessage = 'Anda dapat melakukan absen keluar setelah ' . $minTimeOut->format('H:i') . ' (10 menit setelah absen masuk)';
+                $this->statusMessage = 'Anda dapat melakukan presensi keluar setelah ' . $minTimeOut->format('H:i') . ' (10 menit setelah absen masuk)';
             } else if ($this->canCheckOut) {
-                $this->statusMessage = 'Anda dapat melakukan absen keluar sekarang';
+                $this->statusMessage = 'Anda dapat melakukan presensi keluar sekarang';
             } else {
-                $this->statusMessage = 'Waktu absen keluar telah berakhir';
+                $this->statusMessage = 'Waktu presensi keluar telah berakhir';
             }
         } else {
             // Sudah absen masuk dan keluar
             $this->canCheckIn = false;
             $this->canCheckOut = false;
-            $this->statusMessage = 'Anda sudah melakukan absen masuk dan keluar hari ini';
+            $this->statusMessage = 'Anda sudah melakukan presensi masuk dan keluar hari ini';
         }
     }
 
@@ -205,7 +205,7 @@ class ScanComponent extends Component
             ->first();
 
         if ($attendance && $attendance->time_out) {
-            return 'Karyawan sudah menyelesaikan absensi hari ini.';
+            return 'Karyawan sudah menyelesaikan presensi hari ini.';
         }
 
         $now = Carbon::now();
@@ -223,12 +223,12 @@ class ScanComponent extends Component
                 // Validasi waktu absen masuk
                 // Karyawan hanya bisa absen masuk mulai dari jam masuk yang ditentukan (tidak bisa lebih awal)
                 if ($now->lt($startTime)) {
-                    return 'Belum waktunya absen masuk. Absen masuk dapat dilakukan mulai ' . $startTime->format('H:i');
+                    return 'Belum waktunya presensi masuk. Presensi masuk dapat dilakukan mulai ' . $startTime->format('H:i');
                 }
                 
                 // Karyawan tidak bisa absen masuk setelah jam pulang (terlalu telat)
                 if ($now->gte($endTime)) {
-                    return 'Waktu absen masuk telah berakhir';
+                    return 'Waktu presensi masuk telah berakhir';
                 }
                 
                 // Absen Masuk
@@ -247,7 +247,7 @@ class ScanComponent extends Component
                     'status'      => $status,
                 ]);
                 
-                $this->successMsg = 'Berhasil absen masuk untuk ' . $employee->name;
+                $this->successMsg = $employee->name .'Berhasil melakukan presensi masuk';
                 return true;
             } elseif (!$attendance->time_out) {
                 // Validasi waktu absen keluar
@@ -258,22 +258,22 @@ class ScanComponent extends Component
                 // Karyawan tidak bisa absen keluar sebelum 10 menit dari waktu absen masuk
                 if ($now->lt($minTimeOut)) {
                     // Kembalikan pesan error dengan informasi tentang karyawan tertentu
-                    return $employee->name . ' belum dapat absen keluar. Absen keluar dapat dilakukan setelah ' . $minTimeOut->format('H:i') . ' (10 menit setelah absen masuk)';
+                    return $employee->name . ' belum dapat presensi keluar. presensi keluar dapat dilakukan pada' . $minTimeOut->format('H:i');
                 }
                 
                 // Karyawan tidak bisa absen keluar setelah melewati jam absen keluar yang ditentukan
                 if ($now->gt($endTime)) {
-                    return 'Waktu absen keluar telah berakhir';
+                    return 'Waktu presensi keluar telah berakhir';
                 }
                 
                 // Absen Keluar
                 $attendance->update(['time_out' => $now]);
-                $this->successMsg = 'Berhasil absen keluar untuk ' . $employee->name;
+                $this->successMsg = $employee->name . 'Berhasil melakukan presensi keluar';
                 return true;
             }
         } catch (\Exception $e) {
             \Log::error('Attendance Scan Error: ' . $e->getMessage());
-            return 'Terjadi kesalahan saat menyimpan absensi. Silakan coba lagi.';
+            return 'Terjadi kesalahan saat menyimpan presensi. Silakan coba lagi.';
         }
     }
 

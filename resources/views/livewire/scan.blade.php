@@ -92,8 +92,6 @@
     </div>
   </div>
 </div>
-
-@if (!$isAbsence)
 @script
 <script>
 (function() {
@@ -103,6 +101,10 @@
   let scanner = null;
   // Simpan ID karyawan yang sedang dalam masa jeda
   let cooldownEmployees = {};
+  
+  // Constants for notification display times (in milliseconds)
+  const ERROR_DISPLAY_TIME = 5000; // seconds for error messages
+  const SUCCESS_DISPLAY_TIME = 6000; //seconds for success messages
 
   setTimeout(() => {
     if (!shift.value) {
@@ -153,12 +155,14 @@
       if (now < cooldownEndTime) {
         // Masih dalam masa jeda
         const remainingMinutes = Math.ceil((cooldownEndTime - now) / 60000);
-        errorMsg.innerHTML = `Karyawan ini baru saja absen masuk. Dapat absen keluar setelah ${remainingMinutes} menit lagi.`;
+        errorMsg.innerHTML = `Karyawan ini baru saja presensi masuk. Anda dapat presensi keluar setelah ${remainingMinutes} menit`;
         
         // Resume scanner setelah menampilkan pesan, tanpa menghapus cooldown
+        // Waktu tampilan pesan yang lebih lama
         setTimeout(() => {
           scanner.resume();
-        }, 3000);
+          errorMsg.innerHTML = '';
+        }, ERROR_DISPLAY_TIME);
         return;
       } else {
         // Jeda sudah berakhir, hapus dari daftar cooldown
@@ -170,27 +174,28 @@
     
     if (result === true) {
       // Scan berhasil
-      scanner.resume(); // Langsung resume scanner untuk karyawan berikutnya
       errorMsg.innerHTML = '';
-      document.querySelector('#scanner-result').classList.remove('hidden');
+      const successElement = document.querySelector('#scanner-result');
+      successElement.classList.remove('hidden');
       
       // Jika ini adalah absen masuk yang berhasil, tambahkan ke daftar cooldown
-      if ($wire.successMsg.includes('absen masuk')) {
+      if ($wire.successMsg.includes('Jam Masuk Shift')) {
         const cooldownEndTime = new Date();
         cooldownEndTime.setMinutes(cooldownEndTime.getMinutes() + 10);
         cooldownEmployees[decodedText] = cooldownEndTime;
       }
       
-      // Bersihkan pesan sukses setelah beberapa detik
+      // Bersihkan pesan sukses setelah waktu yang lebih lama
       setTimeout(() => {
-        document.querySelector('#scanner-result').classList.add('hidden');
-      }, 5000);
+        successElement.classList.add('hidden');
+        scanner.resume(); // Resume scanner setelah pesan sukses hilang
+      }, SUCCESS_DISPLAY_TIME);
     } else if (typeof result === 'string') {
       // Pesan error
       errorMsg.innerHTML = result;
       
       // Cek apakah ini adalah pesan tentang jeda 10 menit
-      if (result.includes('belum dapat absen keluar') && result.includes('10 menit setelah absen masuk')) {
+      if (result.includes('belum dapat presensi keluar') && result.includes('10 menit setelah presensi masuk')) {
         // Ekstrak waktu dari pesan
         const timeMatch = result.match(/setelah (\d{2}:\d{2})/);
         if (timeMatch && timeMatch[1]) {
@@ -203,14 +208,13 @@
         }
       }
       
-      // Resume scanner setelah menampilkan pesan
+      // Resume scanner setelah menampilkan pesan untuk waktu yang lebih lama
       setTimeout(() => {
         scanner.resume();
         errorMsg.innerHTML = '';
-      }, 3000);
+      }, ERROR_DISPLAY_TIME);
     }
   }
 })();
 </script>
 @endscript
-@endif
