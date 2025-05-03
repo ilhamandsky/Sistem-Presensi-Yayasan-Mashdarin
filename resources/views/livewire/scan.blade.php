@@ -67,8 +67,6 @@
             <p class="mt-1 text-xs text-gray-700 dark:text-gray-300">
               Absen: {{ Carbon::parse($attendance->time_in)->format('H:i:s') }}
             </p>
-          @elseif($attendance === null && $shift_id)
-            <p class="mt-1 text-xs text-gray-700 dark:text-gray-300">Belum Absen Masuk</p>
           @endif
         </div>
         <x-heroicon-o-clock class="h-6 w-6 flex-shrink-0" />
