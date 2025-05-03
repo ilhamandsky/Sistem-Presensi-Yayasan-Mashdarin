@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ Auth::user()->isAdmin ? route('admin.dashboard') : route('home') }}">
-                        <img src="{{ asset('logo.jpg') }}" alt="Logo" class="h-8 w-8 rounded-full" />
+                        <img src="{{ asset('logo.jpg') }}" alt="Logo" class="h-17 w-14 rounded-full" />
                     </a>
                 </div>
 
