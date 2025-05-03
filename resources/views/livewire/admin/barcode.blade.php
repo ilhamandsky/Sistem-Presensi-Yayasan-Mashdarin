@@ -42,7 +42,7 @@
               </x-secondary-button>
               <x-danger-button wire:click="confirmDeletion('{{ $barcode->id }}', '{{ addslashes($barcode->user->name) }}')"
                                  wire:loading.attr="disabled" wire:target="confirmDeletion('{{ $barcode->id }}', '{{ addslashes($barcode->user->name) }}')"
-                                 title="Hapus Barcode">
+                                 title="Hapus QR Code">
                  <x-heroicon-o-trash class="h-5 w-5"/>
               </x-danger-button>
             </div>
@@ -63,7 +63,7 @@
 
   {{-- Modal Konfirmasi Hapus --}}
   <x-confirmation-modal wire:model.live="confirmingDeletion">
-    <x-slot name="title">Hapus Barcode</x-slot>
+    <x-slot name="title">Hapus QR Code</x-slot>
     <x-slot name="content">
       Apakah Anda yakin ingin menghapus QR Code untuk karyawan <b>{{ $deleteName ?? '' }}</b>? Tindakan ini tidak dapat dibatalkan.
     </x-slot>
