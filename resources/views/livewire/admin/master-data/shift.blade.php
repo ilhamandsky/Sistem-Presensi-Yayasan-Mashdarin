@@ -93,7 +93,7 @@
           </div>
           <div class="w-full">
             <x-label for="end_time">{{ __('Time End') }}</x-label>
-            <x-input id="end_time" class="mt-1 block w-full" type="time" wire:model="form.end_time" />
+            <x-input id="end_time" class="mt-1 block w-full" type="time" wire:model="form.end_time" required />
             @error('form.end_time')
               <x-input-error for="form.end_time" class="mt-2" message="{{ $message }}" />
             @enderror

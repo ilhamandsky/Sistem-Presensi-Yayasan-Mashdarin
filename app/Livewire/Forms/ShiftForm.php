@@ -17,7 +17,7 @@ class ShiftForm extends Form
     public $end_time   = null;
 
     /**
-     * Dipanggil sebelum komponen mount, 
+     * Dipanggil sebelum komponen mount,
      * kalau kamu mau langsung mengisi form untuk edit.
      * (pastikan Livewire memang memanggil mount pada Form)
      */
@@ -43,7 +43,7 @@ class ShiftForm extends Form
                     ->ignore($this->shift?->id),
             ],
             'start_time' => ['required', 'date_format:H:i'],
-            'end_time'   => ['nullable', 'date_format:H:i', 'after:start_time'],
+            'end_time'   => ['required', 'date_format:H:i', 'after:start_time'],
         ];
     }
 
