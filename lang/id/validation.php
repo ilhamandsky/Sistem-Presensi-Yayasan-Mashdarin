@@ -202,6 +202,7 @@ return [
         'is_visible'               => 'terlihat',
         'is_winner'                => 'adalah pemenang',
         'items'                    => 'item',
+        'job_title_id'             => 'jabatan',
         'key'                      => 'kunci',
         'last_name'                => 'nama belakang',
         'lesson'                   => 'pelajaran',
