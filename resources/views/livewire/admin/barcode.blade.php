@@ -69,10 +69,10 @@
     </x-slot>
     <x-slot name="footer">
       <x-secondary-button wire:click="$set('confirmingDeletion', false)" wire:loading.attr="disabled">
-        {{ __('Cancel') }}
+        {{ __('Batal') }}
       </x-secondary-button>
       <x-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled" wire:target="delete">
-        {{ __('Confirm Delete') }}
+        {{ __('Konfirmasi') }}
       </x-danger-button>
     </x-slot>
   </x-confirmation-modal>
