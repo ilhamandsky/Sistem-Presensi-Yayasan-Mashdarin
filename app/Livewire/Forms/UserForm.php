@@ -29,9 +29,9 @@ class UserForm extends Form
                 'max:255',
                 Rule::unique('users', 'name')->ignore($this->user?->id),
             ],
-            'gender' => ['nullable', 'in:male,female'],
+            'gender' => ['required','nullable', 'in:male,female'],
             'group' => ['nullable', 'string', 'max:255', Rule::in(User::$groups)],
-            'job_title_id' => ['nullable', 'exists:job_titles,id'],
+            'job_title_id' => ['required','nullable', 'exists:job_titles,id'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ];
 

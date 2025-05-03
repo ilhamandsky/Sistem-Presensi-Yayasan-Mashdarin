@@ -68,7 +68,7 @@
                 Edit
               </x-button>
               <x-danger-button wire:click="confirmDeletion('{{ $user->id }}', '{{ $user->name }}')">
-                Delete
+                Hapus
               </x-danger-button>
             </td>
           </tr>
@@ -158,36 +158,6 @@
     </x-slot>
     <form wire:submit.prevent="update" id="user-edit">
       <x-slot name="content">
-        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-          <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 sm:col-span-4">
-            <input type="file" id="photo" class="hidden" wire:model.live="form.photo" x-ref="photo"
-              x-on:change="
-                photoName = $refs.photo.files[0].name;
-                const reader = new FileReader();
-                reader.onload = (e) => { photoPreview = e.target.result; };
-                reader.readAsDataURL($refs.photo.files[0]);
-              " />
-            <x-label for="photo" value="{{ __('Photo') }}" />
-            <div class="mt-2" x-show="! photoPreview">
-              <img src="{{ $form->user?->profile_photo_url }}" alt="{{ $form->user?->name }}" class="h-20 w-20 rounded-full object-cover">
-            </div>
-            <div class="mt-2" x-show="photoPreview" style="display: none;">
-              <span class="block h-20 w-20 rounded-full bg-cover bg-center bg-no-repeat"
-                x-bind:style="'background-image: url(\'' + photoPreview + '\');'"></span>
-            </div>
-            <x-secondary-button class="me-2 mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
-              {{ __('Select A New Photo') }}
-            </x-secondary-button>
-            @if ($form->user?->profile_photo_path)
-              <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                {{ __('Remove Photo') }}
-              </x-secondary-button>
-            @endif
-            @error('form.photo')
-              <x-input-error for="form.photo" message="{{ $message }}" class="mt-2" />
-            @enderror
-          </div>
-        @endif
         <div class="mt-4">
           <x-label for="name">Nama Karyawan</x-label>
           <x-input id="name" class="mt-1 block w-full" type="text" wire:model="form.name" />

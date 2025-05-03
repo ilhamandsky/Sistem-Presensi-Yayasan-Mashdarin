@@ -81,7 +81,6 @@
             </p>
           @elseif($attendance?->time_in && !$attendance?->time_out)
             <p class="mt-1 text-xs text-gray-700 dark:text-gray-300">
-              Belum Absen Keluar
               @if($minTimeOut)
                 <br>Dapat absen keluar mulai: {{ $minTimeOut }}
               @endif
