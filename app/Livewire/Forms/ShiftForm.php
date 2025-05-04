@@ -28,6 +28,13 @@ class ShiftForm extends Form
         }
     }
 
+    public function messages()
+    {
+        return [
+            'name.required' => 'Nama shift wajib diisi',
+        ];
+    }
+
     /**
      * Aturan validasi.
      */

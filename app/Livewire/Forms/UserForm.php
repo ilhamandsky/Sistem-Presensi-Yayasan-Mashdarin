@@ -29,9 +29,9 @@ class UserForm extends Form
                 'max:255',
                 Rule::unique('users', 'name')->ignore($this->user?->id),
             ],
-            'gender' => ['required','nullable', 'in:male,female'],
+            'gender' => ['required', 'nullable', 'in:male,female'],
             'group' => ['nullable', 'string', 'max:255', Rule::in(User::$groups)],
-            'job_title_id' => ['required','nullable', 'exists:job_titles,id'],
+            'job_title_id' => ['required', 'nullable', 'exists:job_titles,id'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ];
 
@@ -47,6 +47,17 @@ class UserForm extends Form
         }
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        $messages = [
+            'name.required' => $this->is_employee ? 'Nama karyawan wajib diisi' : 'Nama wajib diisi',
+        ];
+
+        // Tambahkan pesan spesifik untuk validasi lainnya jika perlu
+
+        return $messages;
     }
 
     public function setUser(User $user)
@@ -164,7 +175,7 @@ class UserForm extends Form
     private function isAllowed()
     {
         $currentUser = Auth::user();
-        
+
         if (!$currentUser) {
             return false;
         }
@@ -175,24 +186,24 @@ class UserForm extends Form
             if ($this->is_employee && $currentUser->isAdmin) {
                 return true;
             }
-            
+
             // Hanya superadmin yang dapat membuat admin
             if (!$this->is_employee && $this->group === 'admin') {
                 return $currentUser->isSuperadmin;
             }
-        } 
+        }
         // Jika mengedit user yang sudah ada
         else {
             // Admin dapat mengedit karyawan
             if ($this->user->group === 'user' && $currentUser->isAdmin) {
                 return true;
             }
-            
+
             // Admin dapat mengedit dirinya sendiri
             if ($this->user->group === 'admin' && $currentUser->isAdmin && $currentUser->id === $this->user->id) {
                 return true;
             }
-            
+
             // Superadmin dapat mengedit siapa saja
             if ($currentUser->isSuperadmin) {
                 return true;

@@ -183,6 +183,7 @@ return [
         'district'                 => 'daerah',
         'duration'                 => 'durasi',
         'email'                    => 'email',
+        'employee_name'            => 'nama karyawan',
         'end_time'                 => 'waktu pulang',
         'excerpt'                  => 'kutipan',
         'filter'                   => 'Saring',

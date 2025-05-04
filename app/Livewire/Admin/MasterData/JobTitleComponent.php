@@ -11,7 +11,7 @@ class JobTitleComponent extends Component
 {
     use InteractsWithBanner;
 
-    public $name;
+    public $name = '';
     public $deleteName = null;
     public $creating = false;
     public $editing = false;
@@ -22,6 +22,13 @@ class JobTitleComponent extends Component
         'name' => ['required', 'string', 'max:255', 'unique:job_titles'],
     ];
 
+    protected function messages()
+    {
+        return [
+            'name.required' => 'Nama jabatan wajib diisi',
+            'name.unique' => 'Nama jabatan sudah digunakan',
+        ];
+    }
     public function showCreating()
     {
         $this->resetErrorBag();
