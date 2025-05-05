@@ -16,7 +16,7 @@
 
   @if ($barcodes->isEmpty())
     <div class="mt-6 rounded border border-yellow-300 bg-yellow-50 p-4 text-center text-yellow-700 dark:border-yellow-700 dark:bg-gray-800 dark:text-yellow-300">
-        Belum ada QR Code karyawan yang dibuatc
+        Belum ada QR Code karyawan yang dibuat
     </div>
   @else
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
