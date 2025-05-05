@@ -10,13 +10,13 @@
     </x-button>
     <x-secondary-button href="{{ route('admin.barcodes.downloadall') }}">
       <x-heroicon-o-arrow-down-tray class="-ml-1 mr-2 h-5 w-5"/>
-      Download Semua QR Code
+      Unduh Semua QR Code
     </x-secondary-button>
   </div>
 
   @if ($barcodes->isEmpty())
     <div class="mt-6 rounded border border-yellow-300 bg-yellow-50 p-4 text-center text-yellow-700 dark:border-yellow-700 dark:bg-gray-800 dark:text-yellow-300">
-        Belum ada QR Code karyawan yang dibuatc
+        Belum ada QR Code karyawan yang dibuat
     </div>
   @else
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -37,7 +37,7 @@
 
             {{-- Tombol Aksi --}}
             <div class="mt-auto flex flex-wrap items-center justify-center gap-2 border-t border-gray-200 pt-4 dark:border-gray-700">
-              <x-secondary-button href="{{ route('admin.barcodes.download', $barcode->id) }}" title="Download QR Code">
+              <x-secondary-button href="{{ route('admin.barcodes.download', $barcode->id) }}" title="Unduh QR Code">
                  <x-heroicon-o-arrow-down-tray class="h-5 w-5"/>
               </x-secondary-button>
               <x-danger-button wire:click="confirmDeletion('{{ $barcode->id }}', '{{ addslashes($barcode->user->name) }}')"

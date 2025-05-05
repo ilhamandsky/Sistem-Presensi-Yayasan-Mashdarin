@@ -57,8 +57,8 @@
         </x-select>
         <div class="col-span-2 flex items-center gap-2 lg:w-96">
             <x-input type="text" class="w-full" name="search" id="seacrh" wire:model="search"
-                placeholder="{{ __('Search') }}" />
-            <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">{{ __('Search') }}</x-button>
+                placeholder="{{ __('Cari Nama') }}" />
+            <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">{{ __('Cari') }}</x-button>
             @if ($search)
                 <x-secondary-button type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
                     {{ __('Reset') }}

@@ -19,7 +19,7 @@
     </x-select>
 
     <div class="col-span-3 flex items-center gap-2 lg:col-span-1">
-      <x-input type="text" class="w-full lg:w-72" name="search" id="search" wire:model="search" placeholder="{{ __('Search') }}" />
+      <x-input type="text" class="w-full lg:w-72" name="search" id="search" wire:model="search" placeholder="{{ __('Cari Nama') }}" />
       <div class="flex gap-2">
         <x-button class="flex justify-center sm:w-32" type="button" wire:click="$refresh" wire:loading.attr="disabled">
           {{ __('Search') }}
