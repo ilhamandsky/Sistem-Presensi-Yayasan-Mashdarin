@@ -29,7 +29,7 @@ class ShiftComponent extends Component
     {
         $this->form->store();
         $this->creating = false;
-        $this->banner(__('Created successfully.'));
+        $this->banner(__('Shift berhasil ditambahkan.'));
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class ShiftComponent extends Component
     {
         $this->form->update();
         $this->editing = false;
-        $this->banner(__('Updated successfully.'));
+        $this->banner(__('Data shift berhasil diperbarui.'));
     }
 
     public function confirmDeletion($id, $name)
@@ -60,7 +60,7 @@ class ShiftComponent extends Component
         $shift = Shift::find($this->selectedId);
         $this->form->setShift($shift)->delete();
         $this->confirmingDeletion = false;
-        $this->banner(__('Deleted successfully.'));
+        $this->banner(__('Data shift berhasil dihapus.'));
     }
 
     public function render()

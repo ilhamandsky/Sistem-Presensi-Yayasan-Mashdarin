@@ -45,7 +45,7 @@ class JobTitleComponent extends Component
         JobTitle::create(['name' => $this->name]);
         $this->creating = false;
         $this->name = null;
-        $this->banner(__('Created successfully.'));
+        $this->banner(__('Jabatan berhasil ditambahkan.'));
     }
 
     public function edit($id)
@@ -67,7 +67,7 @@ class JobTitleComponent extends Component
         $jobTitle->update(['name' => $this->name]);
         $this->editing = false;
         $this->selectedId = null;
-        $this->banner(__('Updated successfully.'));
+        $this->banner(__('Data jabatan berhasil diperbarui.'));
     }
 
     public function confirmDeletion($id, $name)
@@ -87,7 +87,7 @@ class JobTitleComponent extends Component
         $this->confirmingDeletion = false;
         $this->selectedId = null;
         $this->deleteName = null;
-        $this->banner(__('Deleted successfully.'));
+        $this->banner(__('Data jabatan berhasil dihapus.'));
     }
 
     public function render()

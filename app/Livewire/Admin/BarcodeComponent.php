@@ -66,10 +66,10 @@ class BarcodeComponent extends Component
         try {
             $barcode = Barcode::findOrFail($this->selectedId);
             $userName = $barcode->user ? $barcode->user->name : 'Unknown User';
-            
+
             $barcode->delete();
-            
-            $this->banner(__('Barcode for :user deleted successfully.', ['user' => $userName]));
+
+            $this->banner(__('QR Code untuk karyawan :user berhasil dihapus.', ['user' => $userName]));
         } catch (\Throwable $th) {
             $this->banner($th->getMessage(), 'danger');
         }

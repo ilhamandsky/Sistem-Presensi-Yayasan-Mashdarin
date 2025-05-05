@@ -54,7 +54,7 @@ class EmployeeComponent extends Component
         $this->form->setAsEmployee();
         $this->form->store();
         $this->creating = false;
-        $this->banner(__('Berhasil dibuat.'));
+        $this->banner(__('Karyawan berhasil ditambahkan.'));
     }
 
     public function edit($id)
@@ -75,7 +75,7 @@ class EmployeeComponent extends Component
         $this->form->setAsEmployee();
         $this->form->update();
         $this->editing = false;
-        $this->banner(__('Berhasil diupdate.'));
+        $this->banner(__('Data karyawan berhasil diperbarui.'));
     }
 
     public function deleteProfilePhoto()
@@ -96,7 +96,7 @@ class EmployeeComponent extends Component
         // Pastikan form diatur sebagai employee sebelum menghapus
         $this->form->setUser($user)->setAsEmployee()->delete();
         $this->confirmingDeletion = false;
-        $this->banner(__('Berhasil dihapus.'));
+        $this->banner(__('Data karyawan berhasil dihapus.'));
     }
 
     public function render()

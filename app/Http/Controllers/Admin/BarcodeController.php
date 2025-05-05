@@ -64,7 +64,7 @@ class BarcodeController extends Controller
                 // Kolom lat, lng, radius biarkan null (default dari DB)
             ]);
 
-            return redirect()->route('admin.barcodes')->with('flash.banner', __('Barcode for :user created successfully.', ['user' => $user->name]));
+            return redirect()->route('admin.barcodes')->with('flash.banner', __('QR Code untuk :user berhasil dibuat.', ['user' => $user->name]));
         } catch (\Throwable $th) {
             return redirect()->back()
                 ->withInput() // Kembalikan input sebelumnya
