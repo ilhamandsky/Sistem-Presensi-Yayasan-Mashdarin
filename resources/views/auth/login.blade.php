@@ -62,13 +62,6 @@
                         class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition duration-150 ease-in-out">
                         Masuk
                     </button>
-
-                    @if (Route::has('password.request'))
-                        <div class="mt-4 text-sm">
-                            <a href="{{ route('password.request') }}" class="text-indigo-600 hover:underline">Lupa kata
-                                sandi Anda?</a>
-                        </div>
-                    @endif
                 </form>
             </div>
         </div>
