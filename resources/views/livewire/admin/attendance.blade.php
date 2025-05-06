@@ -97,15 +97,6 @@
         </button>
     </div>
 
-    <!-- Status auto-refresh -->
-    <div class="mb-4 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-        <span>Data diperbarui otomatis setiap 30 detik</span>
-    </div>
-
     <div class="overflow-x-scroll">
         <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-900">
