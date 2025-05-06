@@ -19,8 +19,7 @@ $date = Carbon\Carbon::now();
         {{-- Jabatan --}}
         <div class="flex items-center gap-4 bg-white border border-blue-200 rounded-xl p-4 shadow-sm">
             <div class="p-3 rounded-full" style="background-color:rgb(252, 232, 186);">
-                 <i class="fas fa-briefcase text-xl" style="color: #F69700;"></i>
-            </div>
+                 <i class="fas fa-briefcase text-xl" style="color: #F69700;"></i>             </div>
             <div>
                 <div class="text-sm text-gray-500 font-medium">Jumlah Jabatan</div>
                 <div class="text-xl font-bold text-gray-800">{{ $jobTitleCount }}</div>
@@ -43,8 +42,7 @@ $date = Carbon\Carbon::now();
     <div class="bg-white p-6 rounded-xl shadow">
         {{-- Header Presensi --}}
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold">Presensi Hari Ini</h3>
-            <div class="text-sm text-gray-600">
+            <h3 class="text-xl font-bold">Presensi Hari Ini</h3>             <div class="text-sm text-gray-600">
                 Hari ini: {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
             </div>
         </div>
@@ -63,24 +61,22 @@ $date = Carbon\Carbon::now();
 
         <div class="mb-4 overflow-x-scroll">
             <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-900">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                <thead style="background-color:rgb(176, 201, 251);">
+                    <tr>                         <th class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Name') }}
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Job Title') }}
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Shift') }}
                         </th>
                         <th
-                            class="text-nowrap px-1 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300">
+                            class="text-nowrap px-1 py-3 text-center text-xs font-medium text-black-500 dark:text-gray-300">
                             Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Time In') }}
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                        </th>                         <th class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Time Out') }}
                         </th>
                         <th class="relative"><span class="sr-only">Actions</span></th>
@@ -95,7 +91,7 @@ $date = Carbon\Carbon::now();
                     $attendance = $employee->attendance;
                     $timeIn = $attendance?->time_in?->format('H:i');
                     $timeOut = $attendance?->time_out?->format('H:i');
-                    $isWeekend = $date->isWeekend();
+                    $isWeekend = $date->isWeekend();                     
                     $isPresent = $attendance && in_array($attendance->status, ['present', 'late']);
 
                     if ($isPresent) {
@@ -113,8 +109,7 @@ $date = Carbon\Carbon::now();
                     @endphp
                     <tr wire:key="{{ $employee->id }}" class="group">
                         <td
-                            class="{{ $class }} text-nowrap group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
-                            {{ $employee->name }}
+                            class="{{ $class }} text-nowrap group-hover:bg-gray-100 dark:group-hover:bg-gray-700">                             {{ $employee->name }}
                         </td>
                         <td
                             class="{{ $class }} text-nowrap group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
@@ -126,15 +121,14 @@ $date = Carbon\Carbon::now();
                         </td>
                         <td class="{{ $class }} text-center">
                             @if ($displayStatus === 'Hadir')
-                            <span class="inline-block px-3 py-1 text-sm rounded-full bg-[#e4fbee] text-[#3cb371] font-semibold">
+                            <span class="text-sm rounded-full {{ $bgColor }} text-[#3cb371] font-semibold">
                                 Hadir
                             </span>
-                            @elseif ($displayStatus === 'Tidak Hadir')
-                            <span class="inline-block px-3 py-1 text-sm rounded-full bg-[#fdeaea] text-[#e74c3c] font-semibold">
+                            @elseif ($displayStatus === 'Tidak Hadir')                             <span class="inline-block px-3 py-1 text-sm rounded-full {{ $bgColor }} text-[#e74c3c] font-semibold">
                                 Tidak Hadir
                             </span>
                             @else
-                            <span class="inline-block px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-500 font-semibold">
+                            <span class="text-sm rounded-full {{ $bgColor }} text-gray-500 font-semibold">
                                 -
                             </span>
                             @endif
@@ -147,8 +141,7 @@ $date = Carbon\Carbon::now();
                         </td>
                         <td class="sr-only"></td>
                     </tr>
-                    @endforeach
-                </tbody>
+                    @endforeach                 </tbody>
             </table>
         </div>
 
