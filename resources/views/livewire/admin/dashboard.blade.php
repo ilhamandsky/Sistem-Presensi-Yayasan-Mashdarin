@@ -7,8 +7,8 @@ $date = Carbon\Carbon::now();
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {{-- Karyawan --}}
         <div class="flex items-center gap-4 bg-white border border-blue-200 rounded-xl p-4 shadow-sm">
-            <div class="bg-purple-100 p-3 rounded-full">
-                <i class="fas fa-users text-purple-600 text-xl"></i>
+            <div class="p-3 rounded-full" style="background-color:rgb(219, 218, 254);">
+                <i class="fas fa-users text-xl" style="color: #8280FF;"></i>
             </div>
             <div>
                 <div class="text-sm text-gray-500 font-medium">Jumlah Karyawan</div>
@@ -18,8 +18,8 @@ $date = Carbon\Carbon::now();
 
         {{-- Jabatan --}}
         <div class="flex items-center gap-4 bg-white border border-blue-200 rounded-xl p-4 shadow-sm">
-            <div class="bg-yellow-100 p-3 rounded-full">
-                <i class="fas fa-briefcase text-yellow-600 text-xl"></i>
+            <div class="p-3 rounded-full" style="background-color:rgb(252, 232, 186);">
+                 <i class="fas fa-briefcase text-xl" style="color: #F69700;"></i>
             </div>
             <div>
                 <div class="text-sm text-gray-500 font-medium">Jumlah Jabatan</div>

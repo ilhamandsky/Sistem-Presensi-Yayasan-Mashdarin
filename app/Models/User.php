@@ -72,17 +72,6 @@ class User extends Authenticatable
     {
         return !$this->isAdmin;
     }
-
-    public function education()
-    {
-        return $this->belongsTo(Education::class);
-    }
-
-    public function division()
-    {
-        return $this->belongsTo(Division::class);
-    }
-
     public function jobTitle()
     {
         return $this->belongsTo(JobTitle::class);
