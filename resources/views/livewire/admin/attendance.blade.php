@@ -24,8 +24,7 @@
             Data Presensi
         </h3>
         <!-- Tombol Refresh -->
-        <button wire:click="clearAttendanceCache" wire:loading.class="rotating"
-            class="refresh-btn bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-colors duration-300">
+        <button wire:click="clearAttendanceCache" wire:loading.class="rotating" class="refresh-btn bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-colors duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,41 +36,58 @@
     </div>
 
     <div class="mb-1 text-sm dark:text-white">Filter:</div>
-    <div class="mb-4 grid grid-cols-2 flex-wrap items-center gap-5 md:gap-8 lg:flex">
-        <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
-            <x-label for="month_filter" value="Per Bulan"></x-label>
-            <x-input type="month" name="month_filter" id="month_filter" wire:model.live="month" />
-        </div>
+    <div class="mb-4">
+        <!-- Filter Perbulan dan Perhari (Baris Pertama) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div class="flex flex-col gap-3">
+                <x-label for="month_filter" value="Per Bulan"></x-label>
+                <x-input type="month" name="month_filter" id="month_filter" wire:model.live="month" class="w-full" />
+            </div>
 
-        <div class="col-span-2 flex flex-col gap-3 lg:flex-row lg:items-center">
-            <x-label for="day_filter" value="Per Hari"></x-label>
-            <x-input type="date" name="day_filter" id="day_filter" wire:model.live="date" />
+            <div class="flex flex-col gap-3">
+                <x-label for="day_filter" value="Per Hari"></x-label>
+                <x-input type="date" name="day_filter" id="day_filter" wire:model.live="date" class="w-full" />
+            </div>
         </div>
-        <x-select id="jobTitle" wire:model.live="jobTitle">
-            <option value="">{{ __('Select Job Title') }}</option>
-            @foreach (App\Models\JobTitle::all() as $_jobTitle)
-                <option value="{{ $_jobTitle->id }}" {{ $_jobTitle->id == $jobTitle ? 'selected' : '' }}>
-                    {{ $_jobTitle->name }}
-                </option>
-            @endforeach
-        </x-select>
-        <div class="col-span-2 flex items-center gap-2 lg:w-96">
-            <x-input type="text" class="w-full" name="search" id="seacrh" wire:model="search"
-                placeholder="{{ __('Cari Nama') }}" />
-            <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">{{ __('Cari') }}</x-button>
-            @if ($search)
-                <x-secondary-button type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
-                    {{ __('Reset') }}
-                </x-secondary-button>
-            @endif
+        
+        <!-- Filter Jabatan dan Pencarian (Baris Kedua) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <div class="flex flex-col gap-3">
+                
+                <x-select id="jobTitle" wire:model.live="jobTitle" class="w-full">
+                    <option value="">{{ __('Select Job Title') }}</option>
+                    @foreach (App\Models\JobTitle::all() as $_jobTitle)
+                        <option value="{{ $_jobTitle->id }}" {{ $_jobTitle->id == $jobTitle ? 'selected' : '' }}>
+                            {{ $_jobTitle->name }}
+                        </option>
+                    @endforeach
+                </x-select>
+            </div>
+            
+            <div class="flex flex-col gap-3">
+               
+                <div class="flex items-center gap-2">
+                    <x-input type="text" class="w-full" name="search" id="search" wire:model="search"
+                        placeholder="{{ __('Cari Nama') }}" />
+                    <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">{{ __('Cari') }}</x-button>
+                    @if ($search)
+                        <x-secondary-button type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
+                            {{ __('Reset') }}
+                        </x-secondary-button>
+                    @endif
+                </div>
+            </div>
         </div>
-        <div class="lg:hidden"></div>
-        <x-secondary-button
-            href="{{ route('admin.attendances.report', ['month' => $month, 'week' => $week, 'date' => $date, 'jobTitle' => $jobTitle]) }}"
-            class="flex justify-center gap-2">
-            Cetak Laporan
-            <x-heroicon-o-printer class="h-5 w-5" />
-        </x-secondary-button>
+        
+        <!-- Tombol Cetak Laporan -->
+        <div class="flex justify-end">
+            <x-secondary-button
+                href="{{ route('admin.attendances.report', ['month' => $month, 'week' => $week, 'date' => $date, 'jobTitle' => $jobTitle]) }}"
+                class="flex justify-center gap-2">
+                Cetak Laporan
+                <x-heroicon-o-printer class="h-5 w-5" />
+            </x-secondary-button>
+        </div>
     </div>
 
     <!-- Notifikasi status refresh -->

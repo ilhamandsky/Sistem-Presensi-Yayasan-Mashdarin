@@ -8,24 +8,28 @@
     </x-button>
   </div>
   <div class="mb-1 text-sm dark:text-white">Filter:</div>
-  <div class="mb-4 grid grid-cols-3 flex-wrap items-center gap-5 md:gap-8 lg:flex">
-    <x-select id="jobTitle" wire:model.live="jobTitle">
-      <option value="">{{ __('Select Job Title') }}</option>
-      @foreach (App\Models\JobTitle::all() as $_jobTitle)
-        <option value="{{ $_jobTitle->id }}">
-          {{ $_jobTitle->name }}
-        </option>
-      @endforeach
-    </x-select>
+  <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="flex flex-col gap-3">
 
-    <div class="col-span-3 flex items-center gap-2 lg:col-span-1">
-      <x-input type="text" class="w-full lg:w-72" name="search" id="search" wire:model="search" placeholder="{{ __('Cari Nama') }}" />
-      <div class="flex gap-2">
-        <x-button class="flex justify-center sm:w-32" type="button" wire:click="$refresh" wire:loading.attr="disabled">
+      <x-select id="jobTitle" wire:model.live="jobTitle" class="w-full">
+        <option value="">{{ __('Select Job Title') }}</option>
+        @foreach (App\Models\JobTitle::all() as $_jobTitle)
+          <option value="{{ $_jobTitle->id }}">
+            {{ $_jobTitle->name }}
+          </option>
+        @endforeach
+      </x-select>
+    </div>
+
+    <div class="flex flex-col gap-3">
+  
+      <div class="flex items-center gap-2">
+        <x-input type="text" class="w-full" name="search" id="search" wire:model="search" placeholder="{{ __('Cari Nama') }}" />
+        <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">
           {{ __('Search') }}
         </x-button>
         @if ($search)
-          <x-secondary-button class="flex justify-center sm:w-32" type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
+          <x-secondary-button type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
             {{ __('Reset') }}
           </x-secondary-button>
         @endif
