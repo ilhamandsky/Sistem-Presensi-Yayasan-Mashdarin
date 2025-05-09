@@ -80,18 +80,19 @@
     <table id="table">
         <thead>
             <tr>
-                <th>No.</th>
-                <th>{{ $showUserDetail ? __('Name') : __('Name') . '/' . __('Date') }}</th>
+                <th style="font-size: 14px">No.</th>
+                <th style="font-size: 14px">
+                    {{ $showUserDetail ? __('Name') : __('Name') . '/' . __('Date') }}</th>
                 @if ($showUserDetail)
-                    <th>{{ __('Job Title') }}</th>
-                    <th>Jam Masuk</th>
-                    <th>Jam Keluar</th>
+                    <th style="font-size: 14px">{{ __('Job Title') }}</th>
+                    <th style="font-size: 14px">Jam Masuk</th>
+                    <th style="font-size: 14px">Jam Keluar</th>
                     @if ($isPerDayFilter)
-                        <th>{{ __('Shift') }}</th>
+                        <th style="font-size: 14px">{{ __('Shift') }}</th>
                     @endif
                 @endif
                 @foreach ($dates as $date)
-                    <th style="padding: 0px 2px; font-size: 14px">
+                    <th style="font-size: 14px">
                         @if ($isPerDayFilter)
                             Status
                         @elseif (!$month)
@@ -195,4 +196,3 @@
 </body>
 
 </html>
- 

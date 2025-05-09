@@ -10,17 +10,17 @@
     <table class="w-full overflow-hidden rounded-t-lg">
         <thead style="background-color:rgb(176, 201, 251);">
             <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                     Shift
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                     {{ __('Time Start') }}
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                     {{ __('Time End') }}
                 </th>
-                <th scope="col" class="relative px-6 py-3">
-                    <span class="sr-only">Actions</span>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-black-500 dark:text-gray-300">
+                    Aksi
                 </th>
             </tr>
         </thead>
@@ -36,13 +36,15 @@
                     <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                         {{ $shift->end_time ?? '-' }}
                     </td>
-                    <td class="relative flex justify-end gap-2 px-6 py-4">
-                        <x-edit-button wire:click="edit({{ $shift->id }})">
-                            Edit
-                        </x-edit-button>
-                        <x-delete-button wire:click="confirmDeletion({{ $shift->id }}, '{{ $shift->name }}')">
-                            Hapus
-                        </x-delete-button>
+                    <td class="whitespace-nowrap text-center">
+                        <div class="flex justify-center space-x-2">
+                            <x-edit-button wire:click="edit({{ $shift->id }})">
+                                Edit
+                            </x-edit-button>
+                            <x-delete-button wire:click="confirmDeletion({{ $shift->id }}, '{{ $shift->name }}')">
+                                Hapus
+                            </x-delete-button>
+                        </div>
                     </td>
                 </tr>
             @endforeach
