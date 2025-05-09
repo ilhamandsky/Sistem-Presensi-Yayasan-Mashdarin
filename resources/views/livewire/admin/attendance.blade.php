@@ -24,7 +24,8 @@
             Data Presensi
         </h3>
         <!-- Tombol Refresh -->
-        <button wire:click="clearAttendanceCache" wire:loading.class="rotating" class="refresh-btn bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-colors duration-300">
+        <button wire:click="clearAttendanceCache" wire:loading.class="rotating"
+            class="refresh-btn bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md flex items-center gap-2 transition-colors duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -49,11 +50,11 @@
                 <x-input type="date" name="day_filter" id="day_filter" wire:model.live="date" class="w-full" />
             </div>
         </div>
-        
+
         <!-- Filter Jabatan dan Pencarian (Baris Kedua) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
             <div class="flex flex-col gap-3">
-                
+
                 <x-select id="jobTitle" wire:model.live="jobTitle" class="w-full">
                     <option value="">{{ __('Select Job Title') }}</option>
                     @foreach (App\Models\JobTitle::all() as $_jobTitle)
@@ -63,13 +64,14 @@
                     @endforeach
                 </x-select>
             </div>
-            
+
             <div class="flex flex-col gap-3">
-               
+
                 <div class="flex items-center gap-2">
                     <x-input type="text" class="w-full" name="search" id="search" wire:model="search"
                         placeholder="{{ __('Cari Nama') }}" />
-                    <x-button type="button" wire:click="$refresh" wire:loading.attr="disabled">{{ __('Cari') }}</x-button>
+                    <x-button type="button" wire:click="$refresh"
+                        wire:loading.attr="disabled">{{ __('Cari') }}</x-button>
                     @if ($search)
                         <x-secondary-button type="button" wire:click="$set('search', '')" wire:loading.attr="disabled">
                             {{ __('Reset') }}
@@ -78,7 +80,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Tombol Cetak Laporan -->
         <div class="flex justify-end">
             <x-secondary-button
@@ -113,29 +115,30 @@
         </button>
     </div>
     <div class="overflow-x-scroll">
-        <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-gray-900">
+        <table class="w-full overflow-hidden rounded-t-lg">
+            <thead style="background-color:rgb(176, 201, 251);">
                 <tr>
-                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                    <th scope="col"
+                        class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                         {{ $showUserDetail ? __('Name') : __('Name') . '/' . __('Date') }}
                     </th>
                     @if ($showUserDetail)
                         <th scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                            class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Job Title') }}
                         </th>
                         @if (!$isPerDayFilter)
                             <th scope="col"
-                                class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                                class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                                 {{ __('Status') }}
                             </th>
                         @endif
                         <th scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                            class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Time In') }}
                         </th>
                         <th scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300">
+                            class="px-4 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300">
                             {{ __('Time Out') }}
                         </th>
                     @endif
@@ -152,7 +155,7 @@
                             }
                         @endphp
                         <th scope="col"
-                            class="{{ $textClass }} text-nowrap px-1 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300">
+                            class="{{ $textClass }} text-nowrap px-1 py-3 text-center text-xs font-medium text-black dark:text-gray-300">
                             @if ($isPerDayFilter)
                                 Status
                             @else
@@ -185,7 +188,7 @@
                     @php
                         $attendances = $employee->attendances;
                     @endphp
-                    <tr wire:key="{{ $employee->id }}" class="group">
+                    <tr wire:key="{{ $employee->id }}" class="hover:bg-gray-50">
                         {{-- Detail karyawan --}}
                         <td
                             class="{{ $class }} text-nowrap group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
@@ -211,10 +214,10 @@
                                     class="{{ $class }} text-nowrap group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
                                     @if ($isPresent)
                                         <span
-                                            class="px-2 py-1 rounded bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200">Hadir</span>
+                                            class="inline-block whitespace-nowrap text-xs text-green-600 px-2 py-1 rounded-full font-medium bg-green-100">Hadir</span>
                                     @else
                                         <span
-                                            class="px-2 py-1 rounded bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200">Tidak
+                                            class="inline-block whitespace-nowrap text-xs text-red-500 px-2 py-1 rounded-full font-medium bg-red-100">Tidak
                                             Hadir</span>
                                     @endif
                                 </td>
@@ -246,29 +249,34 @@
                                     // Untuk filter per hari: gunakan kata-kata
                                     if ($isPresent) {
                                         $displayStatus = 'Hadir';
-                                        $bgColor =
-                                            'bg-green-200 dark:bg-green-800 hover:bg-green-300 dark:hover:bg-green-700';
+                                        $statusClass =
+                                            'inline-block whitespace-nowrap text-xs text-green-600 px-2 py-1 rounded-full font-medium bg-green-100';
                                     } else {
                                         $displayStatus = 'Tidak Hadir';
-                                        $bgColor = 'bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700';
+                                        $statusClass =
+                                            'inline-block whitespace-nowrap text-xs text-red-500 px-2 py-1 rounded-full font-medium bg-red-100';
                                     }
 
-                                    // Jika akhir pekan atau tanggal di masa depan dan tidak ada absensi
                                     if (($isWeekend || !$date->isPast()) && !$attendance) {
                                         $displayStatus = '-';
-                                        $bgColor = 'hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-600';
+                                        $statusClass = 'text-gray-500 dark:text-gray-300';
                                     }
+
+                                    $bgColor = '';
+                                    $textClass = '';
                                 } else {
                                     // Untuk filter per bulan: gunakan simbol
                                     if ($isPresent) {
                                         $displayStatus = '✅';
                                         $bgColor =
                                             'bg-green-200 dark:bg-green-800 hover:bg-green-300 dark:hover:bg-green-700 border border-green-300 dark:border-green-600';
+                                        $textClass = 'text-green-800 dark:text-green-200';
                                         $presentCount++;
                                     } else {
                                         $displayStatus = '❌';
                                         $bgColor =
                                             'bg-red-200 dark:bg-red-800 hover:bg-red-300 dark:hover:bg-red-700 border border-red-300 dark:border-red-600';
+                                        $textClass = 'text-red-800 dark:text-red-200';
                                         if (!$isWeekend && $date->isPast()) {
                                             $absentCount++;
                                         }
@@ -279,16 +287,21 @@
                                         $displayStatus = '-';
                                         $bgColor =
                                             'hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600';
+                                        $textClass = 'text-gray-500 dark:text-gray-300';
                                     }
                                 }
                             @endphp
-                            @if (!$isPerDayFilter && $attendance && ($attendance['attachment'] || $attendance['note'] || $attendance['coordinates']))
-                            @else
-                                <td
-                                    class="{{ $bgColor }} text-nowrap cursor-pointer px-1 py-3 text-center text-sm font-medium text-gray-900 dark:text-white">
+
+                            <td
+                                class="{{ $bgColor }} {{ $textClass }} cursor-pointer px-1 py-3 text-center text-sm font-medium">
+                                @if ($isPerDayFilter && $displayStatus != '-')
+                                    <span class="{{ $statusClass }}">
+                                        {{ $displayStatus }}
+                                    </span>
+                                @else
                                     {{ $displayStatus }}
-                                </td>
-                            @endif
+                                @endif
+                            </td>
                         @endforeach
 
                         {{-- Total --}}

@@ -11,10 +11,10 @@
         <thead style="background-color:rgb(176, 201, 251);">
             <tr>
                 <th scope="col"
-                    class="px-12 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 width-20">
+                    class="px-12 py-3 text-left text-xs font-medium text-black-500 dark:text-gray-300 width-20">
                     Jabatan
                 </th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300">
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-black-500 dark:text-gray-300">
                     Aksi
                 </th>
             </tr>
