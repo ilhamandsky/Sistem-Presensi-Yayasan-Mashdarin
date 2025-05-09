@@ -75,6 +75,8 @@ class AttendanceComponent extends Component
 
     public function render()
     {
+        $dates = [];
+
         if ($this->date) {
             $dates = [Carbon::parse($this->date)];
         } else if ($this->week) {

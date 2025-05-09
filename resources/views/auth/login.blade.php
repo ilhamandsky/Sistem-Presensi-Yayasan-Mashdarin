@@ -31,7 +31,7 @@
 
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input id="email" name="email" type="text" autocomplete="email"
+                    <x-input-login id="email" name="email" type="text" autocomplete="email"
                         value="{{ old('email') }}"
                         class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-2" />
                     @error('email')
