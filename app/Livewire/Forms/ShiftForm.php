@@ -54,15 +54,15 @@ class ShiftForm extends Form
         ];
     }
 
-    /**
-     * Isi form dari model Shift (dipakai untuk edit).
-     */
     public function setShift(Shift $shift)
     {
-        $this->shift       = $shift;
-        $this->name        = $shift->name;
-        $this->start_time  = $shift->start_time;
-        $this->end_time    = $shift->end_time;
+        $this->shift = $shift;
+        $this->name = $shift->name;
+
+        // Format waktu sesuai yang diharapkan validasi
+        $this->start_time = date('H:i', strtotime($shift->start_time));
+        $this->end_time = date('H:i', strtotime($shift->end_time));
+
         return $this;
     }
 
