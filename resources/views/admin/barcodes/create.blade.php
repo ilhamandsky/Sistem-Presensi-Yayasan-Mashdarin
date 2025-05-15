@@ -18,7 +18,7 @@
             <div class="w-full">
               <x-label for="user_id">Pilih Karyawan</x-label>
               {{-- Gunakan Select Input Component jika ada, atau tag <select> biasa --}}
-              <x-select name="user_id" id="user_id">
+              <x-select name="user_id" id="user_id" >
                 <option value="" disabled selected>Pilih Karyawan</option>
                 @foreach ($users as $id => $name)
                 <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>

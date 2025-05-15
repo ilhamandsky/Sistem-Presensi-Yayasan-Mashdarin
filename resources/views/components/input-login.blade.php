@@ -28,21 +28,4 @@
         opacity: 0.7;
     }
 
-    /* Dark mode styles */
-    @media (prefers-color-scheme: dark) {
-        .form-input {
-            background-color: #111827;
-            border-color: #374151;
-            color: #d1d5db;
-        }
-
-        .form-input:focus {
-            border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
-        }
-
-        .form-input:disabled {
-            background-color: #1f2937;
-        }
-    }
 </style>
